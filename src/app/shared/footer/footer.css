@@ -1,0 +1,47 @@
+.footer {
+  background-color: #0f172a; /* Slate 900 */
+  color: #e2e8f0; /* Slate 200 */
+  padding: 2rem 0;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  margin-top: auto; /* Helps push footer to bottom if using flex-col layout on body */
+}
+
+.footer-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .footer-container {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+}
+
+.footer-brand p {
+  margin: 0;
+  font-size: 0.875rem;
+  color: #94a3b8; /* Slate 400 */
+}
+
+.footer-nav {
+  display: flex;
+  gap: 2rem;
+}
+
+.footer-link {
+  color: #cbd5e1; /* Slate 300 */
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: color 0.2s ease-in-out;
+}
+
+.footer-link:hover {
+  color: #ffffff;
+}

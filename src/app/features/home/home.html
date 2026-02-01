@@ -1,0 +1,175 @@
+<div class="container mt-5">
+    <div class="card shadow-sm border-0">
+        <div class="card-header bg-white py-3">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <h4 class="mb-0 text-primary fw-bold">User Management</h4>
+                </div>
+                <div class="col-md-6">
+                    <form #searchForm="ngForm">
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border-end-0">
+                                <i class="bi bi-search text-muted"></i>
+                            </span>
+                            <input type="text" class="form-control border-start-0 ps-0 bg-light"
+                                placeholder="Search users by name or email..." name="keyword" ngModel
+                                aria-label="Search users">
+                            <button class="btn btn-primary px-4" type="button"
+                                (click)="search(searchForm)">Search</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-body p-0">
+            @if (loader) {
+            <div class="text-center">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+            }
+            @if (users.length > 0) {
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0 text-nowrap">
+                    <thead class="table-light">
+                        <tr>
+                            <th scope="col" class="ps-4">#ID</th>
+                            <th scope="col">User</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Phone</th>
+                            <th scope="col">Website</th>
+                            <th scope="col" class="text-end pe-4">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Mock Row 1 -->
+                        @for (user of users; track user.id) {
+                        <tr>
+                            <td class="ps-4 text-muted">#{{user.id}}</td>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div class="avatar-initial rounded-circle bg-primary text-white me-3 d-flex align-items-center justify-content-center"
+                                        style="width: 40px; height: 40px;">
+                                        {{user.name.charAt(0).toUpperCase()}}
+                                    </div>
+                                    <div>
+                                        <h6 class="mb-0">{{user.name}}</h6>
+                                        <small class="text-muted">@{{user.username}}</small>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>{{user.email}}</td>
+                            <td>
+                                <span
+                                    class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill">{{user.phone}}</span>
+                            </td>
+                            <td>
+                                {{user.company.name}}
+                            </td>
+                            <td class="text-end pe-4">
+                                <div class="btn-group" role="group">
+                                    <button type="button" class="btn btn-light btn-sm text-primary" title="View Details"
+                                        (click)="getUserIfon(user.id)" data-bs-toggle="modal"
+                                        data-bs-target="#userModal">
+                                        <i class="bi bi-info-circle"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-light btn-sm text-warning" title="Edit User">
+                                        <i class="bi bi-pencil"></i>
+                                    </button>
+                                    <button type="button" (click)="delete(user.id)"
+                                        class="btn btn-light btn-sm text-danger" title="Delete User">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            }@else {
+            <p class="text-danger">No users found</p>
+            }
+
+        </div>
+
+        <div class="card-footer bg-white border-top-0 py-3">
+            <nav aria-label="User pagination">
+                <ul class="pagination justify-content-end mb-0">
+                    <li class="page-item disabled">
+                        <a class="page-link border-0" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                    </li>
+
+                    <li class="page-item">
+                        <a class="page-link border-0 text-primary" href="#" (click)="nextClick()">Next</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+<!-- User Details Modal -->
+
+<div class="modal fade" id="userModal" tabindex="-1" aria-labelledby="userModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow">
+            <div class="modal-header border-bottom-0">
+                <h5 class="modal-title fw-bold" id="userModalLabel">User Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body text-center">
+                        <div class="avatar-initial rounded-circle bg-primary text-white d-flex align-items-center justify-content-center mx-auto mb-3"
+                            style="width: 80px; height: 80px; font-size: 2rem;">
+                            JD
+                        </div>
+                        <h4 class="card-title fw-bold mb-1">{{selectedUser?.name}}</h4>
+                        <p class="text-muted mb-3">@{{selectedUser?.username}}</p>
+
+                        <div class="text-start mt-4">
+                            <h6 class="text-secondary text-uppercase small fw-bold mb-3">Contact Information</h6>
+                            <div class="mb-2">
+                                <i class="bi bi-envelope text-primary me-2"></i>
+                                <span>{{selectedUser?.email}}</span>
+                            </div>
+                            <div class="mb-2">
+                                <i class="bi bi-telephone text-primary me-2"></i>
+                                <span>{{selectedUser?.phone}}</span>
+                            </div>
+                            <div class="mb-2">
+                                <i class="bi bi-globe text-primary me-2"></i>
+                                <span>{{selectedUser?.website}}</span>
+                            </div>
+
+                            <hr class="my-4">
+
+                            <h6 class="text-secondary text-uppercase small fw-bold mb-3">Company</h6>
+                            <div class="mb-2">
+                                <i class="bi bi-building text-primary me-2"></i>
+                                <strong>Romaguera-Crona</strong>
+                            </div>
+                            <p class="text-muted small">Multi-layered client-server neural-net</p>
+                            <hr class="my-4">
+
+                            <h6 class="text-secondary text-uppercase small fw-bold mb-3">Address</h6>
+                            <div class="d-flex">
+                                <i class="bi bi-geo-alt text-primary me-2 mt-1"></i>
+                                <span>
+                                    {{selectedUser?.address.street}}, Apt. {{selectedUser?.address.suite}}<br>
+                                    {{selectedUser?.address.city}}, {{selectedUser?.address.zipcode}}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer border-top-0 justify-content-center pb-4">
+                <button type="button" class="btn btn-secondary px-4">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,26 @@
+/* You can add global styles to this file, and also import other style files */
+
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+/* 
+  Ensure the Angular root component takes up the full viewport height 
+  and uses flexbox to push the footer to the bottom.
+*/
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+app-root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* 
+  Since the footer has 'margin-top: auto', it will be pushed to the bottom 
+  as long as the parent (app-root) is a flex column with full height.
+*/

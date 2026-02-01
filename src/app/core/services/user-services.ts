@@ -1,0 +1,47 @@
+import { HttpClient } from '@angular/common/http';
+import { Inject, Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { User } from '../model/User';
+import { API_URL } from '../tokens/api.token';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class UserServices {
+  constructor(private http: HttpClient, @Inject(API_URL) private baseUrl: string) {
+
+  }
+
+  limit = 5;
+
+
+  // crud user 
+  /**
+   * get all user information
+   */
+  getAllUser(): Observable<User[]> {
+    return this.http.get<User[]>(`${this.baseUrl}/users?_limit=${this.limit}`);
+  }
+
+  nextPage(): Observable<User[]> {
+    this.limit += 5;
+    return this.getAllUser();
+  }
+  /**
+   * get user by id 
+   * params id 
+   */
+  getUserByid(id: number): Observable<User> {
+    return this.http.get<User>(`${this.baseUrl}/users/${id}`);
+  }
+
+
+
+  /**
+   * delete user 
+   * params id 
+   */
+  deleteUser(id: number): Observable<User> {
+    return this.http.delete<User>(`${this.baseUrl}/users/${id}`);
+  }
+}
