@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild, viewChild } from '@angular/core';
-import { UserServices } from '../../core/services/user-services';
-import { User } from '../../core/model/User';
+import { UserServices } from '../../core/services/user.service';
+import { User } from '../../core/model/user.model';
 import { Modal } from 'bootstrap';
 
 
@@ -10,7 +10,7 @@ import { Modal } from 'bootstrap';
   templateUrl: './home.html',
   styleUrl: './home.css',
 })
-export class Home implements OnInit {
+export class HomeComponent implements OnInit {
   users: User[] = [];
   loader: boolean = false;
 
@@ -21,7 +21,7 @@ export class Home implements OnInit {
 
   ngOnInit(): void {
     this.loader = true;
-    this.userServ.getAllUser().subscribe({
+    this.userServ.getUsers().subscribe({
       next: (res) => {
         this.users = res;
         console.log("Users loaded:", res);
@@ -76,13 +76,13 @@ export class Home implements OnInit {
   }
 
   getUserIfon(id: number) {
-    this.userServ.getUserByid(id).subscribe({
-      next: (res) => {
+    this.userServ.getUserById(id).subscribe({
+      next: (res: any) => {
         this.selectedUser = res;
         console.log("User loaded:", res);
         this.cd.detectChanges(); // Manually trigger change detection
       },
-      error: (err) => {
+      error: (err: any) => {
         console.log("Error loading user:", err);
         this.cd.detectChanges(); // Manually trigger change detection
       }

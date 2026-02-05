@@ -2,20 +2,21 @@ import { NgModule, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 
-import { AppRoutingModule } from './app-routing-module';
-import { App } from './app';
-import { Header } from './shared/header/header';
-import { Footer } from './shared/footer/footer';
-import { Home } from './features/home/home';
+import { AppRoutingModule } from './app.routing.module';
+import { App } from './app.component';
+
 import { API_URL } from './core/tokens/api.token';
 import { FormsModule } from '@angular/forms';
+import { HeaderComponent } from './shared/components/header/header.component';
+import { FooterComponent } from './shared/components/footer/footer.component';
+import { HomeComponent } from './features/home/home.component';
 
 @NgModule({
   declarations: [
     App,
-    Header,
-    Footer,
-    Home
+    HeaderComponent,
+    FooterComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { User } from '../model/User';
+import { User } from '../model/user.model';
 import { API_URL } from '../tokens/api.token';
 
 @Injectable({
@@ -19,19 +19,19 @@ export class UserServices {
   /**
    * get all user information
    */
-  getAllUser(): Observable<User[]> {
+  getUsers(): Observable<User[]> {
     return this.http.get<User[]>(`${this.baseUrl}/users?_limit=${this.limit}`);
   }
 
   nextPage(): Observable<User[]> {
     this.limit += 5;
-    return this.getAllUser();
+    return this.getUsers();
   }
   /**
    * get user by id 
    * params id 
    */
-  getUserByid(id: number): Observable<User> {
+  getUserById(id: number): Observable<User> {
     return this.http.get<User>(`${this.baseUrl}/users/${id}`);
   }
 
